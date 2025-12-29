@@ -1,0 +1,905 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustraCapitalFX | Secure Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #0d6efd;
+            --accent: #00c9a7;
+            --dark: #121f3d;
+            --darker: #0a1429;
+            --light: #f8f9fa;
+            --danger: #dc3545;
+            --warning: #ffca28;
+            --success: #28a745;
+            --text: #e9ecef;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .auth-section {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-danger {
+            background: transparent;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+        }
+        
+        main {
+            padding: 10px 0 40px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 201, 167, 0.3);
+        }
+        
+        .balance {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--accent);
+            text-align: center;
+        }
+        
+        .currency-pair {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        .currency-pair:last-child {
+            border-bottom: none;
+        }
+        
+        .price-up {
+            color: var(--success);
+        }
+        
+        .price-down {
+            color: var(--danger);
+        }
+        
+        .login-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .notification {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+        
+        .notification.error {
+            background: rgba(220, 53, 69, 0.2);
+            border-color: var(--danger);
+        }
+        
+        .notification.success {
+            background: rgba(0, 201, 167, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .notification.warning {
+            background: rgba(255, 202, 40, 0.2);
+            border-color: var(--warning);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 30px;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            font-size: 1.5rem;
+        }
+        
+        .account-info {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .account-card {
+            background: rgba(0, 201, 167, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 200px;
+            border: 1px solid rgba(0, 201, 167, 0.3);
+        }
+        
+        .account-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+        
+        .transaction-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .transaction-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .transaction-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        
+        .transaction-list::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        
+        .transaction-item {
+            padding: 12px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.03);
+            margin-bottom: 10px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .transaction-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .transaction-amount {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .buy {
+            color: var(--success);
+        }
+        
+        .sell {
+            color: var(--danger);
+        }
+        
+        .transfer {
+            color: var(--warning);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .action-btn {
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(0, 201, 167, 0.1);
+            border: 1px solid rgba(0, 201, 167, 0.2);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: rgba(0, 201, 167, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .action-btn i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        
+        .market-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-section {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .user-menu {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>TrustraCapitalFX</span>
+            </div>
+            <div class="auth-section">
+                <button id="loginBtn" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+                <div id="userMenu" class="user-menu hidden">
+                    <div class="user-avatar" id="userAvatar">TC</div>
+                    <button id="logoutBtn" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <!-- Login Section -->
+            <section id="loginSection" class="card">
+                <h2><i class="fas fa-lock"></i> Secure Client Login</h2>
+                <div id="loginNotification" class="notification hidden"></div>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your registered email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-key"></i> Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">
+                        <i class="fas fa-unlock-alt"></i>
+                        Access Trading Platform
+                    </button>
+                </form>
+            </section>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="hidden">
+                <!-- Account Summary -->
+                <div class="card">
+                    <h2><i class="fas fa-wallet"></i> Portfolio Overview</h2>
+                    <div class="balance" id="accountBalance">₦0.00</div>
+                    
+                    <div class="account-info">
+                        <div class="account-card">
+                            <h3><i class="fas fa-naira-sign"></i> NGN Account</h3>
+                            <div class="balance" id="ngnBalance">₦0.00</div>
+                            <div>Account: <span id="ngnAccountId">NGN-XXXX-XXXX</span></div>
+                        </div>
+                        <div class="account-card">
+                            <h3><i class="fas fa-dollar-sign"></i> USD Account</h3>
+                            <div class="balance" id="usdBalance">$0.00</div>
+                            <div>Account: <span id="usdAccountId">USD-XXXX-XXXX</span></div>
+                        </div>
+                        <div class="account-card">
+                            <h3><i class="fas fa-euro-sign"></i> EUR Account</h3>
+                            <div class="balance" id="eurBalance">€0.00</div>
+                            <div>Account: <span id="eurAccountId">EUR-XXXX-XXXX</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="card">
+                    <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                    <div class="quick-actions">
+                        <div class="action-btn" id="btnBuy">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Buy Currency</span>
+                        </div>
+                        <div class="action-btn" id="btnSell">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Sell Currency</span>
+                        </div>
+                        <div class="action-btn" id="btnTransfer">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transfer Funds</span>
+                        </div>
+                        <div class="action-btn" id="btnHistory">
+                            <i class="fas fa-history"></i>
+                            <span>Transaction History</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Market Data -->
+                <div class="card">
+                    <h2><i class="fas fa-chart-bar"></i> Live Market Rates</h2>
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-naira-sign"></i> NGN/USD</h3>
+                            <div class="currency-pair">
+                                <span>Buy Price</span>
+                                <span>
+                                    <div class="price-up" id="ngnUsdBuy">₦0.00</div>
+                                    <div class="market-trend">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+0.25%</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="currency-pair">
+                                <span>Sell Price</span>
+                                <span>
+                                    <div class="price-down" id="ngnUsdSell">₦0.00</div>
+                                    <div class="market-trend">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>-0.18%</span>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-euro-sign"></i> EUR/USD</h3>
+                            <div class="currency-pair">
+                                <span>Buy Price</span>
+                                <span>
+                                    <div class="price-up" id="eurUsdBuy">€0.00</div>
+                                    <div class="market-trend">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+0.42%</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="currency-pair">
+                                <span>Sell Price</span>
+                                <span>
+                                    <div class="price-down" id="eurUsdSell">€0.00</div>
+                                    <div class="market-trend">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>-0.31%</span>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-pound-sign"></i> GBP/USD</h3>
+                            <div class="currency-pair">
+                                <span>Buy Price</span>
+                                <span>
+                                    <div class="price-up" id="gbpUsdBuy">£0.00</div>
+                                    <div class="market-trend">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+0.36%</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="currency-pair">
+                                <span>Sell Price</span>
+                                <span>
+                                    <div class="price-down" id="gbpUsdSell">£0.00</div>
+                                    <div class="market-trend">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>-0.22%</span>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transaction History -->
+                <div class="card">
+                    <h2><i class="fas fa-file-invoice-dollar"></i> Recent Transactions</h2>
+                    <div id="transactionList" class="transaction-list">
+                        <div class="notification">
+                            <i class="fas fa-sync fa-spin"></i> Loading transaction history...
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p><i class="fas fa-shield-alt"></i> TrustraCapitalFX • Registered with Nigerian SEC • © 2025 All Rights Reserved</p>
+            <p>Server Status: <span id="serverStatus">Checking...</span> | Lagos, Nigeria</p>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginSection = document.getElementById('loginSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginForm = document.getElementById('loginForm');
+        const loginNotification = document.getElementById('loginNotification');
+        const serverStatus = document.getElementById('serverStatus');
+        const accountBalance = document.getElementById('accountBalance');
+        const userMenu = document.getElementById('userMenu');
+        const userAvatar = document.getElementById('userAvatar');
+        const transactionList = document.getElementById('transactionList');
+        
+        // Account Elements
+        const ngnBalance = document.getElementById('ngnBalance');
+        const usdBalance = document.getElementById('usdBalance');
+        const eurBalance = document.getElementById('eurBalance');
+        const ngnAccountId = document.getElementById('ngnAccountId');
+        const usdAccountId = document.getElementById('usdAccountId');
+        const eurAccountId = document.getElementById('eurAccountId');
+        
+        // Configuration
+        const API_BASE_URL = 'https://trustracapitalfx.onrender.com/api';
+        let authToken = localStorage.getItem('trustraToken') || null;
+        let currentUser = null;
+        let marketDataInterval = null;
+        
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            checkServerStatus();
+            updateUI();
+            
+            if (authToken) {
+                fetchUserProfile();
+                fetchAccountData();
+                startDataPolling();
+            }
+            
+            // Set up action buttons
+            document.getElementById('btnBuy').addEventListener('click', () => initiateTransaction('buy'));
+            document.getElementById('btnSell').addEventListener('click', () => initiateTransaction('sell'));
+            document.getElementById('btnTransfer').addEventListener('click', () => initiateTransaction('transfer'));
+            document.getElementById('btnHistory').addEventListener('click', showTransactionHistory);
+        });
+        
+        // Check backend status
+        async function checkServerStatus() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                
+                if (data.status === 'Operational') {
+                    serverStatus.textContent = 'Online • Real-time Trading';
+                    serverStatus.style.color = '#00c9a7';
+                } else {
+                    serverStatus.textContent = 'Degraded Performance';
+                    serverStatus.style.color = '#ffca28';
+                }
+            } catch (error) {
+                serverStatus.textContent = 'Offline • Try Again Later';
+                serverStatus.style.color = '#dc3545';
+            }
+        }
+        
+        // Handle login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.status === 200 && data.token) {
+                    authToken = data.token;
+                    localStorage.setItem('trustraToken', authToken);
+                    showNotification('Login successful! Loading dashboard...', 'success');
+                    
+                    setTimeout(() => {
+                        fetchUserProfile();
+                        fetchAccountData();
+                        updateUI();
+                        startDataPolling();
+                    }, 1500);
+                } else {
+                    showNotification(data.error || 'Authentication failed. Please check your credentials.', 'error');
+                }
+            } catch (error) {
+                showNotification('Network error. Please try again later.', 'error');
+            }
+        });
+        
+        // Handle logout
+        logoutBtn.addEventListener('click', () => {
+            authToken = null;
+            localStorage.removeItem('trustraToken');
+            currentUser = null;
+            clearInterval(marketDataInterval);
+            updateUI();
+            showNotification('You have been securely logged out', 'success');
+        });
+        
+        // Fetch user profile
+        async function fetchUserProfile() {
+            if (!authToken) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    handleSessionExpired();
+                    return;
+                }
+                
+                currentUser = await response.json();
+                userAvatar.textContent = currentUser.name.charAt(0);
+            } catch (error) {
+                showNotification('Error loading user profile', 'error');
+            }
+        }
+        
+        // Fetch account data
+        async function fetchAccountData() {
+            if (!authToken) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/accounts`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    handleSessionExpired();
+                    return;
+                }
+                
+                const data = await response.json();
+                updateAccountDisplay(data.accounts);
+                fetchTransactionHistory();
+            } catch (error) {
+                showNotification('Error loading account data', 'error');
+            }
+        }
+        
+        // Update account display
+        function updateAccountDisplay(accounts) {
+            let totalBalance = 0;
+            
+            accounts.forEach(account => {
+                switch(account.currency) {
+                    case 'NGN':
+                        ngnBalance.textContent = formatCurrency(account.balance, 'NGN');
+                        ngnAccountId.textContent = account.id;
+                        totalBalance += account.balance;
+                        break;
+                    case 'USD':
+                        usdBalance.textContent = formatCurrency(account.balance, 'USD');
+                        usdAccountId.textContent = account.id;
+                        totalBalance += account.balance * 1400; // Approx conversion
+                        break;
+                    case 'EUR':
+                        eurBalance.textContent = formatCurrency(account.balance, 'EUR');
+                        eurAccountId.textContent = account.id;
+                        totalBalance += account.balance * 1500; // Approx conversion
+                        break;
+                }
+            });
+            
+            accountBalance.textContent = formatCurrency(totalBalance, 'NGN');
+        }
+        
+        // Fetch transaction history
+        async function fetchTransactionHistory() {
+            if (!authToken) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/transactions`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    handleSessionExpired();
+                    return;
+                }
+                
+                const transactions = await response.json();
+                updateTransactionDisplay(transactions);
+            } catch (error) {
+                showNotification('Error loading transaction history', 'error');
+            }
+        }
+        
+        // Update transaction display
+        function updateTransactionDisplay(transactions) {
+            if (transactions.length === 0) {
+                transactionList.innerHTML = `
+                    <div class="notification">
+                        <i class="fas fa-info-circle"></i> No transactions found
+                    </div>
+                `;
+                return;
+            }
+            
+            transactionList.innerHTML = transactions.slice(0, 5).map(transaction => `
+                <div class="transaction-item">
+                    <div class="transaction-meta">
+                        <span>${new Date(transaction.timestamp).toLocaleDateString('en-NG')}</span>
+                        <span>Ref: ${transaction.transactionId}</span>
+                    </div>
+                    <div class="transaction-amount ${transaction.type}">
+                        ${transaction.type.toUpperCase()}: ${formatCurrency(transaction.amount, transaction.currency)}
+                    </div>
+                    <div>${transaction.fromAccount} → ${transaction.toAccount}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Update market data (simulated real-time)
+        function updateMarketData() {
+            // Generate realistic market data
+            const ngnBuy = (1400 + Math.random() * 20).toFixed(2);
+            const ngnSell = (ngnBuy - 5).toFixed(2);
+            
+            const eurBuy = (1.08 + Math.random() * 0.02).toFixed(4);
+            const eurSell = (eurBuy - 0.005).toFixed(4);
+            
+            const gbpBuy = (1.26 + Math.random() * 0.03).toFixed(4);
+            const gbpSell = (gbpBuy - 0.006).toFixed(4);
+            
+            // Update DOM
+            document.getElementById('ngnUsdBuy').textContent = `₦${ngnBuy}`;
+            document.getElementById('ngnUsdSell').textContent = `₦${ngnSell}`;
+            document.getElementById('eurUsdBuy').textContent = `€${eurBuy}`;
+            document.getElementById('eurUsdSell').textContent = `€${eurSell}`;
+            document.getElementById('gbpUsdBuy').textContent = `£${gbpBuy}`;
+            document.getElementById('gbpUsdSell').textContent = `£${gbpSell}`;
+        }
+        
+        // Poll data every 5 seconds
+        function startDataPolling() {
+            if (marketDataInterval) clearInterval(marketDataInterval);
+            updateMarketData();
+            marketDataInterval = setInterval(updateMarketData, 5000);
+        }
+        
+        // UI Helpers
+        function updateUI() {
+            if (authToken) {
+                loginSection.classList.add('hidden');
+                dashboardSection.classList.remove('hidden');
+                loginBtn.classList.add('hidden');
+                userMenu.classList.remove('hidden');
+            } else {
+                loginSection.classList.remove('hidden');
+                dashboardSection.classList.add('hidden');
+                loginBtn.classList.remove('hidden');
+                userMenu.classList.add('hidden');
+                loginForm.reset();
+            }
+        }
+        
+        function showNotification(message, type) {
+            loginNotification.textContent = message;
+            loginNotification.className = `notification ${type}`;
+            loginNotification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                loginNotification.classList.add('hidden');
+            }, 5000);
+        }
+        
+        function formatCurrency(amount, currency) {
+            const formatter = new Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: currency,
+                minimumFractionDigits: 2
+            });
+            
+            return formatter.format(amount);
+        }
+        
+        function handleSessionExpired() {
+            authToken = null;
+            localStorage.removeItem('trustraToken');
+            currentUser = null;
+            clearInterval(marketDataInterval);
+            updateUI();
+            showNotification('Your session has expired. Please log in again.', 'error');
+        }
+        
+        function initiateTransaction(type) {
+            showNotification(`Preparing ${type} transaction...`, 'warning');
+            // In a real implementation, this would open a transaction modal
+        }
+        
+        function showTransactionHistory() {
+            // Scroll to transaction section
+            document.querySelector('#transactionList').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
