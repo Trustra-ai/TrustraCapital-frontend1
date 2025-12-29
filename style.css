@@ -61,3 +61,40 @@ footer {
   font-size: 13px;
   color: #94a3b8;
   }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #020617;
+  padding: 15px 30px;
+}
+
+.topbar button {
+  background: #ef4444;
+}
+
+.dashboard {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.card {
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.account {
+  display: flex;
+  justify-content: space-between;
+  background: #020617;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+#txMessage {
+  margin-top: 10px;
+}
