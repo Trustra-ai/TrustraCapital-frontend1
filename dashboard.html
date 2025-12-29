@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TrustraCapitalFX – Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <h2>TrustraCapitalFX</h2>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <main class="dashboard">
+
+    <section class="card">
+      <h3>Account Overview</h3>
+      <div id="accounts"></div>
+    </section>
+
+    <section class="card">
+      <h3>New Transaction</h3>
+      <form id="txForm">
+        <input type="text" id="fromAccount" placeholder="From Account ID" required />
+        <input type="text" id="toAccount" placeholder="To Account ID" required />
+        <input type="number" id="amount" placeholder="Amount" required />
+        <input type="text" id="currency" placeholder="Currency (USD, EUR, etc)" required />
+        <button type="submit">Send</button>
+      </form>
+      <p id="txMessage"></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>TrustraCapitalFX • Global Financial Platform • © 2025</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+          </html>
