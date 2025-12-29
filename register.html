@@ -1,0 +1,18 @@
+<form id="registerForm">
+  <input type="email" id="email" required />
+  <input type="password" id="password" required />
+  <button>Create Account</button>
+</form>
+
+<script>
+fetch("https://trustracapitalfx.onrender.com/api/auth/register", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: email.value,
+    password: password.value
+  })
+})
+.then(res => res.json())
+.then(alert);
+</script>
